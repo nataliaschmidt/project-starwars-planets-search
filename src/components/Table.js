@@ -3,7 +3,6 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
   const { apiResult, textFilter } = useContext(PlanetsContext);
-  console.log(apiResult);
   return (
     <table>
       <thead>
