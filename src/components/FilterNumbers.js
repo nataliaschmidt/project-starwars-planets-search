@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function FilterNumbers() {
-  const { filterNumber, setFilterNumber, handleFilter } = useContext(PlanetsContext);
-
+  const { filterNumber, setFilterNumber,
+    handleFilter, columns } = useContext(PlanetsContext);
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setFilterNumber((prevState) => ({
@@ -21,11 +21,10 @@ export default function FilterNumbers() {
           value={ filterNumber.column }
           onChange={ handleChange }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            columns
+              .map((column) => <option key={ column } value={ column }>{column}</option>)
+          }
         </select>
       </label>
 
