@@ -4,6 +4,7 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [apiResult, setApiResult] = useState([]);
+  const [textFilter, setTextFilter] = useState('');
   const fetchApiPlanets = async () => {
     try {
       const response = await fetch('https://swapi.dev/api/planets');
@@ -20,7 +21,9 @@ function PlanetsProvider({ children }) {
 
   const context = useMemo(() => ({
     apiResult,
-  }), [apiResult]);
+    textFilter,
+    setTextFilter,
+  }), [apiResult, textFilter, setTextFilter]);
 
   return (
     <PlanetsContext.Provider value={ context }>
