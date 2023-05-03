@@ -1,5 +1,6 @@
 import './App.css';
 import FilterNumbers from './components/FilterNumbers';
+import FilterOrder from './components/FilterOrder';
 import FilterText from './components/FilterText';
 import ShowFilters from './components/ShowFilters';
 import Table from './components/Table';
@@ -9,6 +10,7 @@ function App() {
     <>
       <FilterText />
       <FilterNumbers />
+      <FilterOrder />
       <ShowFilters />
       <Table />
     </>
