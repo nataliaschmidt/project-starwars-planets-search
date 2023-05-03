@@ -4,6 +4,7 @@ import App from '../App';
 import PlanetsProvider from '../context/PlanetsProvider';
 import mockData from './helpers/mockData';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 
 describe('Testa a aplicação', () => {
   beforeEach(() => {
@@ -58,17 +59,66 @@ describe('Testa a aplicação', () => {
     userEvent.clear(selectValue)
     userEvent.type(selectValue, '8000');
     const btnFilter = screen.getByTestId('button-filter');
-    userEvent.click(btnFilter);
+    act(() => {
+      userEvent.click(btnFilter);
+    })
+    expect(selectColumn).not.toHaveValue('diameter')
     const planets = screen.getAllByTestId('planet-name');
     expect(planets.length).toEqual(8);
     const listFilters = screen.getAllByTestId('filter');
     expect(listFilters.length).toEqual(1)
-    
+
+    userEvent.selectOptions(selectColumn, 'rotation_period');
+    userEvent.selectOptions(selectComparison, 'maior que');
+    userEvent.clear(selectValue)
+    userEvent.type(selectValue, '25');
+    act(() => {
+      userEvent.click(btnFilter);
+    })
+    const planets1 = screen.getAllByTestId('planet-name');
+    expect(planets1.length).toEqual(2);
+    const listFilters1 = screen.getAllByTestId('filter');
+    expect(listFilters1.length).toEqual(2)
+
+    const btnDeleteFilter = screen.getAllByRole('button', { name: /delete/i })
+    act(() => {
+      userEvent.click(btnDeleteFilter[1])
+    })
+    const planets2 = screen.getAllByTestId('planet-name');
+    expect(planets2.length).toEqual(8);
+    const listFilters2 = screen.getAllByTestId('filter');
+    expect(listFilters2.length).toEqual(1)
+
+    const btnDeleteAllFilters = screen.getByTestId('button-remove-filters')
+    act(() => {
+      userEvent.click(btnDeleteAllFilters)
+    })
+    const planets3 = screen.getAllByTestId('planet-name');
+    expect(planets3.length).toEqual(10);
+
+    userEvent.selectOptions(selectColumn, 'diameter');
+    userEvent.selectOptions(selectComparison, 'menor que');
+    userEvent.clear(selectValue)
+    userEvent.type(selectValue, '10000');
+    act(() => {
+      userEvent.click(btnFilter);
+    })
+    const planets4 = screen.getAllByTestId('planet-name');
+    expect(planets1.length).toEqual(2);    
+
     const sortColumn = screen.getByTestId('column-sort');
     const sortAsc = screen.getByTestId('column-sort-input-asc');
     const btnSort = screen.getByTestId('column-sort-button');
     userEvent.selectOptions(sortColumn, 'diameter');
     userEvent.click(sortAsc);
-    userEvent.click(btnSort);
+    act(() => {
+      userEvent.click(btnSort);
+    })
+    const sortDesc = screen.getByTestId('column-sort-input-desc');
+    userEvent.selectOptions(sortColumn, 'population');
+    userEvent.click(sortDesc);
+    act(() => {
+      userEvent.click(btnSort);
+    })
   })
 })

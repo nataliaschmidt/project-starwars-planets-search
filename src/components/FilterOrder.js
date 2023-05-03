@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-// para abrir outro commit para o avaliador
+
 export default function FilterOrder() {
   const { apiResult, setApiResult } = useContext(PlanetsContext);
   const [filterOrder, setFilterOrder] = useState({
@@ -31,7 +31,6 @@ export default function FilterOrder() {
 
   const handleOrderPlanets = () => {
     const { order: { column, sort } } = filterOrder;
-    console.log(apiResult);
     if (sort.includes('ASC')) {
       const unknown = apiResult.filter((planets) => planets[column] === 'unknown');
       const notUnknown = apiResult?.filter((planets) => planets[column] !== 'unknown');
