@@ -70,7 +70,5 @@ describe('Testa a aplicação', () => {
     userEvent.selectOptions(sortColumn, 'diameter');
     userEvent.click(sortAsc);
     userEvent.click(btnSort);
-    // const planets1 = screen.getAllByTestId('planet-name');
-    // console.log(planets1);
   })
 })

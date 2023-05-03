@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-
+// para abrir outro commit para o avaliador
 export default function FilterOrder() {
   const { apiResult, setApiResult } = useContext(PlanetsContext);
   const [filterOrder, setFilterOrder] = useState({
