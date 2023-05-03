@@ -140,7 +140,7 @@ describe('Testa a aplicação', () => {
     })
   })
 
-  test('Testa se ao adicionar todas opções de columns o select fica vazio', async () => {
+  test('Verifica se ao adicionar e remover filtros, os planetas são renredizados corretamente na tela', async () => {
     render(
       <PlanetsProvider>
         <App />
