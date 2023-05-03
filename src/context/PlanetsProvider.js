@@ -4,7 +4,9 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [apiResult, setApiResult] = useState([]);
+  const [saveApiResult, setSaveApiResult] = useState([]);
   const [textFilter, setTextFilter] = useState('');
+  const [isFilterDeleted, setIsFilterDeleted] = useState(false);
   const [filters, setFilters] = useState([]);
   const [columns, setColumn] = useState([
     'population',
@@ -14,7 +16,7 @@ function PlanetsProvider({ children }) {
     'surface_water',
   ]);
   const [filterNumber, setFilterNumber] = useState({
-    column: 'population',
+    column: columns[0],
     comparison: 'maior que',
     number: 0,
   });
@@ -23,6 +25,7 @@ function PlanetsProvider({ children }) {
       const response = await fetch('https://swapi.dev/api/planets');
       const data = await response.json();
       setApiResult(data.results);
+      setSaveApiResult(data.results);
     } catch (error) {
       console.error(error);
     }
@@ -33,6 +36,7 @@ function PlanetsProvider({ children }) {
   }, []);
 
   const handleFilter = useCallback(() => {
+    setIsFilterDeleted(false);
     if (filterNumber.comparison.includes('maior que')) {
       const filtered = apiResult
         .filter((planet) => Number(planet[filterNumber.column])
@@ -51,8 +55,7 @@ function PlanetsProvider({ children }) {
         .filter((planet) => Number(planet[filterNumber.column])
           < Number(filterNumber.number));
       setApiResult(filtered);
-      setFilters([
-        ...filters,
+      setFilters([...filters,
         {
           column: filterNumber.column,
           comparison: filterNumber.comparison,
@@ -85,6 +88,35 @@ function PlanetsProvider({ children }) {
     }));
   }, [apiResult, filterNumber, filters, columns]);
 
+  const handleDeleteFilter = useCallback((id) => {
+    setFilters((prevState) => prevState.filter((filter) => filter.column !== id));
+    setColumn((prevState) => [...prevState, id]);
+    setIsFilterDeleted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isFilterDeleted) {
+      let apiFiltered = saveApiResult;
+      filters.forEach((filter) => {
+        if (filter.comparison.includes('maior que')) {
+          apiFiltered = apiFiltered
+            .filter((planet) => Number(planet[filter.column])
+              > Number(filter.number));
+        } if (filter.comparison.includes('menor que')) {
+          apiFiltered = apiFiltered
+            .filter((planet) => Number(planet[filter.column])
+              < Number(filter.number));
+        } if (filter.comparison.includes('igual a')) {
+          apiFiltered = apiFiltered
+            .filter((planet) => Number(planet[filter.column])
+              === Number(filter.number));
+        }
+      });
+      setApiResult(apiFiltered);
+      setIsFilterDeleted(false);
+    }
+  }, [filters, isFilterDeleted, saveApiResult]);
+
   const context = useMemo(() => ({
     apiResult,
     textFilter,
@@ -93,8 +125,15 @@ function PlanetsProvider({ children }) {
     filterNumber,
     handleFilter,
     columns,
+    filters,
+    handleDeleteFilter,
+    saveApiResult,
+    setApiResult,
+    setFilters,
+    setColumn,
   }), [apiResult, textFilter,
-    setTextFilter, setFilterNumber, filterNumber, handleFilter, columns]);
+    setTextFilter, setFilterNumber, filterNumber, handleFilter, columns, filters,
+    handleDeleteFilter, saveApiResult, setFilters, setColumn]);
 
   return (
     <PlanetsContext.Provider value={ context }>

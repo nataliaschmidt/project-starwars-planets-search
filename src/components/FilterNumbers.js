@@ -3,13 +3,28 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function FilterNumbers() {
   const { filterNumber, setFilterNumber,
-    handleFilter, columns } = useContext(PlanetsContext);
+    handleFilter, columns, saveApiResult,
+    setApiResult, setFilters, setColumn } = useContext(PlanetsContext);
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setFilterNumber((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleDeleteAllFilters = () => {
+    setApiResult(saveApiResult);
+    setFilters([]);
+    setColumn(
+      [
+        'population',
+        'orbital_period',
+        'diameter',
+        'rotation_period',
+        'surface_water',
+      ],
+    );
   };
 
   return (
@@ -54,6 +69,13 @@ export default function FilterNumbers() {
         onClick={ handleFilter }
       >
         Filtrar
+      </button>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ handleDeleteAllFilters }
+      >
+        Excluir filtros
       </button>
     </form>
   );
