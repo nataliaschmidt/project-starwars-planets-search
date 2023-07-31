@@ -1,10 +1,38 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Star Wars Planets Search
+
+Aplicação contendo uma lista de planetas do universo Star Wars, sendo possível aplicar diversos filtros para filtragem das informações.
+
+## Funcionalidades
+<hr>
+
+- Criar um baralho com o tema livre
+
+- Adicionar ou remover uma carta do baralho
+
+- Visualizar todas as cartas que foram adicionadas ao baralho
+
+- Jogar com o baralho criado
+
+## Tecnologias Utilizadas
+<hr>
+
+- React
+- Context API
+- JavaScript
+- React Testing Library
+
+## Instruções
+<hr>
+
+- Clone este repositório.
+
+```bash
+git clone git@github.com:nataliaschmidt/project-starwars-planets-search.git
+```
+
+- Entre na pasta do repositório que você acabou de clonar.
+- Instale as dependências e inicialize o projeto.
+```bash
+npm install
+npm start
+```
